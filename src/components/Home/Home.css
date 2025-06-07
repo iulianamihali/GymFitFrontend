@@ -1,0 +1,246 @@
+body{
+    background-color: black;
+}
+
+.title{
+    color: #d25b1f;
+    font-size: 3.5rem;   /* mare și vizibil */
+    font-weight: 600;    /* bold */
+    letter-spacing: -0.5px;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 140px;
+
+}
+
+.subtitle{
+    color: rgba(226, 232, 240, 1);
+    font-size: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+
+}
+.subtext{
+    font-family: 'Poppins', sans-serif;
+    color: rgba(113, 128, 150, 0.7); /* gri-albăstrui + 70% opacitate */
+
+}
+
+@keyframes floatY {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(15px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+
+.container {
+    animation: floatY 2.5s ease-in-out infinite;
+    max-width: 680px;
+    padding: 2rem;
+    margin-left: 8vw;
+}
+
+.buttons button {
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.55rem 1.5rem;
+
+}
+
+.buttons button:hover {
+    box-shadow: 0 0 10px rgba(255, 140, 0, 0.4);
+    transform: translateY(-2px);
+    transition: all 0.2s ease-in-out;
+}
+.img-login img {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height:100vh;
+    /*width: auto;*/
+    /*object-fit: cover;*/
+    /*z-index: 1;*/
+}
+
+.login-modal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;;
+    border: 2px solid #d25b1f;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    padding: 2rem;
+    width: 400px;
+    color: #111;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.login-modal .login-button{
+    background-color: #c05621;  /* Portocaliu intens */
+    color: white;
+    font-weight: bold;
+    padding: 0.6rem;
+    border-radius: 8px;
+    text-transform: none; /* ca să nu apară LOGIN cu majuscule */
+    transition: background-color 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    align-self: center;
+    width: 100%;
+    margin-top: 1rem;
+    min-width: 150px;
+}
+.login-modal .login-button:hover{
+    background-color: #a7491d; /* mai închis */
+    transform: translateY(-3px); /* ridicare ușoară */
+    box-shadow: 0 10px 20px rgba(192, 86, 33, 0.35);
+}
+.signup-link
+{
+
+    color: #c05621;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin-left: auto;
+        margin-right: auto;
+        padding: 1rem;
+        max-width: 90%;
+        animation: none;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding-bottom: 3rem;
+    }
+
+    .title {
+        font-size: 2rem;
+        margin-top: 100px;
+        text-align: center;
+    }
+
+    .subtitle,
+    .subtext {
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 1rem;
+    }
+
+    .buttons button {
+        width: 80%;
+        max-width: 300px;
+        box-shadow: 0 4px 12px rgba(210, 91, 31, 0.2);
+    }
+
+    .img-login {
+        display: none;
+    }
+
+    .login-modal {
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        padding: 1.8rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        background-color: white;
+        max-width: 400px;
+    }
+
+
+
+
+    .login-modal .login-button {
+        font-size: 1rem;
+        padding: 0.6rem 1.5rem;
+        width: 100%;
+    }
+
+    .login-modal h5 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .signup-link {
+        font-size: 0.95rem;
+    }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+    .login-modal {
+        width: 60%;
+        max-width: 500px;
+        padding: 2.5rem;
+        font-size: 1.1rem;
+    }
+
+    .login-modal .login-button {
+        font-size: 1.1rem;
+        padding: 0.8rem 2rem;
+    }
+
+    .login-modal h5 {
+        font-size: 1.8rem;
+    }
+
+    .signup-link {
+        font-size: 1rem;
+    }
+}
+
+.signup-modal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;;
+    border: 2px solid #d25b1f;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    padding: 2rem;
+    width: 400px;
+    color: #111;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+.signup-modal .signup-button{
+    background-color: #c05621;  /* Portocaliu intens */
+    color: white;
+    font-weight: bold;
+    padding: 0.6rem;
+    border-radius: 8px;
+    text-transform: none; /* ca să nu apară LOGIN cu majuscule */
+    transition: background-color 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    align-self: center;
+    width: 100%;
+    margin-top: 1rem;
+    min-width: 150px;
+}
+.signup-modal .signup-button:hover{
+    background-color: #a7491d;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(192, 86, 33, 0.35);
+}
