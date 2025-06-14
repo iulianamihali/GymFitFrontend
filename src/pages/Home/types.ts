@@ -8,6 +8,12 @@ export interface RegisterRequest{
     phoneNumber: string;
     address: string;
     userType: string;
+    specialization: string;
+    yearsOfExperience: number;
+    certification: string;
+    pricePerHour: number;
+    startInterval: string;
+    endInterval: string;
 }
 export interface LoginRequest{
     email: string;

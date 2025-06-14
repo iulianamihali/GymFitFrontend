@@ -19,6 +19,7 @@ function Sidebar() {
     const user = context?.user;
     const navigate = useNavigate();
 
+
     return (
         <Drawer
             variant="permanent"
@@ -70,121 +71,170 @@ function Sidebar() {
             </div>
 
 
-            {/* 🔽 Meniu mai jos */}
+
             <List style={{marginTop: "1rem"}}>
-                <ListItem disablePadding>
-                    <ListItemButton
-                        onClick={() => navigate("/dashboard/client")}
-                        sx={{
-                        justifyContent: "center",
-                        paddingLeft: 5.5,
-                        gap: 1.5,
-                        color: "white",
-                        transition: "background-color 0.3s ease",
-                        "&:hover": {
-                            backgroundColor: "#252223",
-                            color: "white",
-                        },
-                    }}
-                    >
-                        <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
-                            <DashboardIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Dashboard"
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                        }}/>
 
-                    </ListItemButton>
+                {user?.userType === "Client" && (
+                    <>
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                onClick={() => navigate("/dashboard/client")}
+                                sx={{
+                                    justifyContent: "center",
+                                    paddingLeft: 5.5,
+                                    gap: 1.5,
+                                    color: "white",
+                                    transition: "background-color 0.3s ease",
+                                    "&:hover": {
+                                        backgroundColor: "#252223",
+                                        color: "white",
+                                    },
+                                }}
+                            >
+                                <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                                    <DashboardIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Dashboard"
+                                              sx={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                              }}/>
 
-
-                </ListItem>
-
-                <ListItem disablePadding>
-                    <ListItemButton
-                        onClick={() => navigate("/dashboard/client/trainers")}
-                        sx={{
-                        justifyContent: "center",
-                        paddingLeft: 5.5,
-                        gap: 1.5,
-                        color: "white",
-                        transition: "background-color 0.3s ease",
-                        "&:hover": {
-                            backgroundColor: "#252223",
-                            color: "white",
-                        },
-                    }}
-                    >
-                        <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
-                            <FitnessCenterIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Trainers"
-                                      sx={{
-                                          display: "flex",
-                                          alignItems: "center",
-                                      }}/>
-
-                    </ListItemButton>
+                            </ListItemButton>
 
 
-                </ListItem>
+                        </ListItem>
+
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                onClick={() => navigate("/dashboard/client/trainers")}
+                                sx={{
+                                    justifyContent: "center",
+                                    paddingLeft: 5.5,
+                                    gap: 1.5,
+                                    color: "white",
+                                    transition: "background-color 0.3s ease",
+                                    "&:hover": {
+                                        backgroundColor: "#252223",
+                                        color: "white",
+                                    },
+                                }}
+                            >
+                                <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                                    <FitnessCenterIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Trainers"
+                                              sx={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                              }}/>
+
+                            </ListItemButton>
 
 
-                <ListItem disablePadding>
-                    <ListItemButton
-                        onClick={() => navigate("/dashboard/client/courses")}
-                        sx={{
-                            justifyContent: "center",
-                            paddingLeft: 5.5,
-                            gap: 1.5,
-                            color: "white",
-                            transition: "background-color 0.3s ease",
-                            "&:hover": {
-                                backgroundColor: "#252223",
-                                color: "white",
-                            },
-                        }}
-                    >
-                        <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
-                            <SportsGymnasticsIcon sx={{ color: "white" }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Courses"
-                                      sx={{
-                                          display: "flex",
-                                          alignItems: "center",
-                                      }}/>
-
-                    </ListItemButton>
-                </ListItem>
+                        </ListItem>
 
 
-                <ListItem disablePadding>
-                    <ListItemButton
-                        onClick={() => navigate("/dashboard/client/profile")}
-                        sx={{
-                            justifyContent: "center",
-                            paddingLeft: 5.5,
-                            gap: 1.5,
-                            color: "white",
-                            transition: "background-color 0.3s ease",
-                            "&:hover": {
-                                backgroundColor: "#252223",
-                                color: "white",
-                            },
-                        }}
-                    >
-                        <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
-                            <SettingsIcon sx={{ color: "white" }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Profile"
-                                      sx={{
-                                          display: "flex",
-                                          alignItems: "center",
-                                      }}/>
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                onClick={() => navigate("/dashboard/client/courses")}
+                                sx={{
+                                    justifyContent: "center",
+                                    paddingLeft: 5.5,
+                                    gap: 1.5,
+                                    color: "white",
+                                    transition: "background-color 0.3s ease",
+                                    "&:hover": {
+                                        backgroundColor: "#252223",
+                                        color: "white",
+                                    },
+                                }}
+                            >
+                                <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                                    <SportsGymnasticsIcon sx={{ color: "white" }} />
+                                </ListItemIcon>
+                                <ListItemText primary="Courses"
+                                              sx={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                              }}/>
 
-                    </ListItemButton>
-                </ListItem>
+                            </ListItemButton>
+                        </ListItem>
+
+
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                onClick={() => navigate("/dashboard/client/profile")}
+                                sx={{
+                                    justifyContent: "center",
+                                    paddingLeft: 5.5,
+                                    gap: 1.5,
+                                    color: "white",
+                                    transition: "background-color 0.3s ease",
+                                    "&:hover": {
+                                        backgroundColor: "#252223",
+                                        color: "white",
+                                    },
+                                }}
+                            >
+                                <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                                    <SettingsIcon sx={{ color: "white" }} />
+                                </ListItemIcon>
+                                <ListItemText primary="Profile"
+                                              sx={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                              }}/>
+
+                            </ListItemButton>
+                        </ListItem>
+                    </>
+                )}
+
+
+                {user?.userType === "Trainer" && (
+                    <>
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                onClick={() => navigate("/dashboard/trainer")}
+                                sx={{
+                                    justifyContent: "center",
+                                    paddingLeft: 5.5,
+                                    gap: 1.5,
+                                    color: "white",
+                                    transition: "background-color 0.3s ease",
+                                    "&:hover": {
+                                        backgroundColor: "#252223",
+                                        color: "white",
+                                    },
+                                }}
+                            >
+                                <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                                    <DashboardIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Dashboard"
+                                              sx={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                              }}/>
+
+                            </ListItemButton>
+
+
+                        </ListItem>
+
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => navigate("/dashboard/trainer/clients")}>
+                                <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                                    <FitnessCenterIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Clients" sx={{ display: "flex", alignItems: "center" }} />
+                            </ListItemButton>
+                        </ListItem>
+                    </>
+                )}
+
 
             </List>
         </Drawer>

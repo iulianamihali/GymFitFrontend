@@ -56,16 +56,15 @@ export default function ActiveCoursesList() {
             }}
         >
             <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column", p: 2, minHeight: 0}}>
-                {/* Titlu */}
+
                 <Typography variant="h6" sx={{ mb: 2, fontFamily: "Poppins, sans-serif" }}>
                     Active Courses
                 </Typography>
 
-                {/* LISTA cu scrollbar automat */}
                 <Box
                     sx={{
                         flex: 1,
-                        minHeight: 0,        // ← obligatoriu pt. scroll
+                        minHeight: 0,
                         overflowY: "auto",
                         pr: 1,
                         "&::-webkit-scrollbar": { width: "6px" },
@@ -93,7 +92,7 @@ export default function ActiveCoursesList() {
                                     <IconButton edge="end" onClick={() => {
                                         handleGetCourseDetails(course.courseId);
                                     }}>
-                                        <ChevronRightIcon sx={{ color: "#777" }} />
+                                        <ChevronRightIcon sx={{ color: "#ff7a00" }} />
                                     </IconButton>
                                 }
                             >
@@ -123,7 +122,7 @@ export default function ActiveCoursesList() {
                     </List>
                 </Box>
 
-                {/* BUTON More / Show Less */}
+
                 {courses.length > SLICE_AT && (
                     <Button
                         size="small"

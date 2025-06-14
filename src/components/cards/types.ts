@@ -63,3 +63,25 @@ export type SettingsInfoClient = {
     phoneNumber: string,
     userType: string
 }
+
+export type NextTrainingSession = {
+    title: string,
+    startDateTime: string,
+    clientName: string,
+    durationInMinutes: string
+}
+
+export type SummaryTrainerActivity = {
+    totalClientsEnrolled: number,
+    totalCoursesActive: number,
+    totalNextTrainingSessions: number
+
+}
+
+export type CoursesCreatedByTrainer = {
+    title: string,
+    description: string,
+    price: number,
+    maxParticipants: number,
+    totalParticipants: number
+}

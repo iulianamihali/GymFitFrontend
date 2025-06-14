@@ -34,6 +34,13 @@ function Home(){
     const isPhoneValid = /^[0-9]{10}$/.test(phoneNumber);
     const [phoneTouched, setPhoneTouched] = useState(false);
     const [userType, setUserType] = useState('');
+    const [specialization, setSpecialization] = useState('');
+    const [yearsOfExperience, setYearsOfExperience] = useState<number>(0);
+    const [certification, setCertification] = useState('');
+    const [pricePerHour, setPricePerHour] = useState<number>(0);
+    const [startInterval, setStartInterval] = useState('');
+    const [endInterval, setEndInterval] = useState('');
+
     useEffect(() => {
         if(openLogin===false)
         {
@@ -85,10 +92,19 @@ function Home(){
             axios.post<LoginResponse>(`${API_URL}/auth/login`, loginRequest)
                 .then(({data}) => {
                     console.log(data);
-                    if(auth)
-                        auth?.updateUser(data);
+                    if (auth) {
+                        auth.updateUser(data);
                         Cookies.set('user', JSON.stringify(data), { expires: 7 });
-                        navigate("/dashboard/client");
+
+                        if (data.userType === "Client") {
+                            navigate("/dashboard/client");
+                        } else if (data.userType === "Trainer") {
+                            navigate("/dashboard/trainer");
+                        } else {
+                            navigate("/");
+                        }
+                    }
+
                 })
                 .catch((err) => {
 
@@ -99,23 +115,41 @@ function Home(){
 
     const handleSignUp = () => {
         const registerRequest = {
-            firstName: firstName,
-            lastName: lastName,
+            firstName,
+            lastName,
             email: signupEmail,
-            password:signupPassword,
-            gender:gender,
-            dateOfBirth:dateOfBirth,
-            phoneNumber:phoneNumber,
-            address:address,
-            userType:userType
+            password: signupPassword,
+            gender,
+            dateOfBirth,
+            phoneNumber,
+            address,
+            userType,
+            ...(userType === "Trainer" && {
+                specialization,
+                yearsOfExperience,
+                certification,
+                pricePerHour,
+                startInterval,
+                endInterval,
+            }),
         } as RegisterRequest;
+
         axios.post<LoginResponse>(`${API_URL}/auth/register`, registerRequest)
             .then(({data}) => {
                 console.log(data);
-                if(auth)
-                    auth?.updateUser(data);
-                Cookies.set('user', JSON.stringify(data), { expires: 7 });
-                navigate("../Dashboard/Dashboard");
+                if (auth) {
+                    auth.updateUser(data);
+                    Cookies.set('user', JSON.stringify(data), { expires: 7 });
+
+                    if (data.userType === "Client") {
+                        navigate("/dashboard/client");
+                    } else if (data.userType === "Trainer") {
+                        navigate("/dashboard/trainer");
+                    } else {
+                        navigate("/");
+                    }
+                }
+
             })
             .catch((err) => {
 
@@ -188,7 +222,13 @@ function Home(){
                 </Modal>
 
                 <Modal open={openSignUp} onClose={() => setOpenSignUp(false)}>
-                    <Box className="signup-modal">
+                    <Box className="signup-modal"   sx={{
+                        maxHeight: "76vh",
+                        overflowY: "auto",
+                        padding: 3,
+                        borderRadius: 2,
+                        backgroundColor: "white",
+                    }}>
                         <Typography variant="h5" align="center" sx={{ fontWeight:600,marginBottom: '0.5rem', fontFamily: 'Poppins, sans-serif',mb:3 }} >
                             Create your account
                         </Typography>
@@ -310,6 +350,80 @@ function Home(){
                             <MenuItem value="Client">Client</MenuItem>
                             <MenuItem value="Trainer">Trainer</MenuItem>
                         </TextField>
+
+                        {userType === "Trainer" && (
+                            <>
+                                <Grid container spacing={2} sx={{ mb: 4 }}>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            label="Specialization"
+                                            value={specialization}
+                                            onChange={(e) => setSpecialization(e.target.value)}
+                                            fullWidth
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            label="Years of Experience"
+                                            type="number"
+                                            value={yearsOfExperience}
+                                            onChange={(e) => setYearsOfExperience(Number(e.target.value))}
+                                            fullWidth
+                                            required
+                                        />
+                                    </Grid>
+                                </Grid>
+
+                                <Grid container spacing={2} sx={{ mb: 4 }}>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            label="Certification"
+                                            value={certification}
+                                            onChange={(e) => setCertification(e.target.value)}
+                                            fullWidth
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            label="Price per Hour"
+                                            type="number"
+                                            value={pricePerHour}
+                                            onChange={(e) => setPricePerHour(Number(e.target.value))}
+                                            fullWidth
+                                            required
+                                        />
+                                    </Grid>
+                                </Grid>
+
+                                <Grid container spacing={2} sx={{ mb: 4 }}>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            label="Start Interval"
+                                            type="time"
+                                            value={startInterval}
+                                            onChange={(e) => setStartInterval(e.target.value)}
+                                            fullWidth
+                                            required
+                                            InputLabelProps={{ shrink: true }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            label="End Interval"
+                                            type="time"
+                                            value={endInterval}
+                                            onChange={(e) => setEndInterval(e.target.value)}
+                                            fullWidth
+                                            required
+                                            InputLabelProps={{ shrink: true }}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </>
+                        )}
+
 
                         <Button onClick={handleSignUp}
                                 className="signup-button"

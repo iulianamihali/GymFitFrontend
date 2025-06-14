@@ -11,12 +11,28 @@ import {ApplicationContext} from "../../context/ApplicationContext";
 const currentMonthIndex = new Date().getMonth();
 
 function TrainingChart() {
+
     const [chartData, setChartData] = useState<MonthlyProgress[]>([]);
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const userType = auth?.user?.userType;
+
     useEffect(() => {
         if (!userId) return;
-        axios.get<MonthlyProgress[]>(`${API_URL}/client/monthly/${userId}`)
+        let url = "";
+
+        if (userType === "Client")
+        {
+            url = `${API_URL}/client/monthly/${userId}`;
+        }
+        else if(userType === "Trainer")
+        {
+            url = `${API_URL}/trainer/monthlyProgress/${userId}`;
+        }
+
+        if (!url) return;
+
+        axios.get<MonthlyProgress[]>(url)
             .then(({ data }) => {
                 console.log(data);
                 setChartData(data);
@@ -24,7 +40,8 @@ function TrainingChart() {
             .catch((err) => {
                 console.error("Failed to fetch chart data:", err);
             });
-    }, []);
+    }, [userId, userType]);
+
     return (
         <Box
             sx={{
