@@ -10,11 +10,12 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { ListItemIcon } from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 function Sidebar() {
     const context = useContext(ApplicationContext);
     const user = context?.user;
-    console.log("userName:", user?.userName);
+    const navigate = useNavigate();
 
     return (
         <Drawer
@@ -70,7 +71,9 @@ function Sidebar() {
             {/* 🔽 Meniu mai jos */}
             <List style={{marginTop: "1rem"}}>
                 <ListItem disablePadding>
-                    <ListItemButton sx={{
+                    <ListItemButton
+                        onClick={() => navigate("/dashboard/client")}
+                        sx={{
                         justifyContent: "center",
                         paddingLeft: 5.5,
                         gap: 1.5,
@@ -90,7 +93,39 @@ function Sidebar() {
                             display: "flex",
                             alignItems: "center",
                         }}/>
+
                     </ListItemButton>
+
+
+                </ListItem>
+
+                <ListItem disablePadding>
+                    <ListItemButton
+                        onClick={() => navigate("/dashboard/client/trainers")}
+                        sx={{
+                        justifyContent: "center",
+                        paddingLeft: 5.5,
+                        gap: 1.5,
+                        color: "white",
+                        transition: "background-color 0.3s ease",
+                        "&:hover": {
+                            backgroundColor: "#252223",
+                            color: "white",
+                        },
+                    }}
+                    >
+                        <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                            <FitnessCenterIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Trainers"
+                                      sx={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                      }}/>
+
+                    </ListItemButton>
+
+
                 </ListItem>
             </List>
         </Drawer>

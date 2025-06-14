@@ -28,3 +28,16 @@ export type TrainerIntervalResponse = {
     intervals: string[]
 
 }
+
+export type TrainerCardResponse = {
+    id: string,
+    name: string,
+    specialization: string,
+    rating: number,
+    certification: string,
+    pricePerHour: number,
+    startInterval: string,
+    endInterval: string,
+    yearsOfExperience: number
+
+}
