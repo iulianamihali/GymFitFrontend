@@ -1,11 +1,12 @@
 import React from 'react';
 import {createContext} from 'react';
 import { useState, ReactNode } from 'react';
-import {LoginResponse} from "../components/Home/types";
+import {LoginResponse} from "../pages/Home/types";
 import Cookies from "js-cookie";
 interface ApplicationContextType {
     user: LoginResponse | null;
     updateUser: (user: LoginResponse | null) => void;
+
 }
 
 export const ApplicationContext = createContext<ApplicationContextType|null>(null);

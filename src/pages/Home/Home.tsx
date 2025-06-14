@@ -10,7 +10,9 @@ import axios from 'axios';
 import {API_URL} from "../../authorization/config";
 import {LoginRequest, LoginResponse, RegisterRequest} from "./types";
 import Cookies from 'js-cookie'
+import {useNavigate} from "react-router-dom";
 function Home(){
+    const navigate = useNavigate();
     const auth=useContext(ApplicationContext);
     const [openLogin, setOpenLogin] = useState(false);
     //states for email and password
@@ -86,7 +88,7 @@ function Home(){
                     if(auth)
                         auth?.updateUser(data);
                         Cookies.set('user', JSON.stringify(data), { expires: 7 });
-
+                        navigate("/dashboard/client");
                 })
                 .catch((err) => {
 
@@ -113,7 +115,7 @@ function Home(){
                 if(auth)
                     auth?.updateUser(data);
                 Cookies.set('user', JSON.stringify(data), { expires: 7 });
-
+                navigate("../Dashboard/Dashboard");
             })
             .catch((err) => {
 
