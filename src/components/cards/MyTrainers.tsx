@@ -96,7 +96,7 @@ export default function MyTrainers({ open, onClose}: Props) {
                 >
                     {trainers.map((trainer, index) => {
                         const endDate = dayjs(trainer.endInterval).startOf('day');
-                        const isActive = !endDate.isBefore(today); 
+                        const isActive = !endDate.isBefore(today);
 
                             return (
                                 <Box

@@ -11,6 +11,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { ListItemIcon } from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
+import SettingsIcon from "@mui/icons-material/Settings";
 
 function Sidebar() {
     const context = useContext(ApplicationContext);
@@ -127,6 +129,63 @@ function Sidebar() {
 
 
                 </ListItem>
+
+
+                <ListItem disablePadding>
+                    <ListItemButton
+                        onClick={() => navigate("/dashboard/client/courses")}
+                        sx={{
+                            justifyContent: "center",
+                            paddingLeft: 5.5,
+                            gap: 1.5,
+                            color: "white",
+                            transition: "background-color 0.3s ease",
+                            "&:hover": {
+                                backgroundColor: "#252223",
+                                color: "white",
+                            },
+                        }}
+                    >
+                        <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                            <SportsGymnasticsIcon sx={{ color: "white" }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Courses"
+                                      sx={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                      }}/>
+
+                    </ListItemButton>
+                </ListItem>
+
+
+                <ListItem disablePadding>
+                    <ListItemButton
+                        onClick={() => navigate("/dashboard/client/profile")}
+                        sx={{
+                            justifyContent: "center",
+                            paddingLeft: 5.5,
+                            gap: 1.5,
+                            color: "white",
+                            transition: "background-color 0.3s ease",
+                            "&:hover": {
+                                backgroundColor: "#252223",
+                                color: "white",
+                            },
+                        }}
+                    >
+                        <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                            <SettingsIcon sx={{ color: "white" }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Profile"
+                                      sx={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                      }}/>
+
+                    </ListItemButton>
+                </ListItem>
+
             </List>
         </Drawer>
     );

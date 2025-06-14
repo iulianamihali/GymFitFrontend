@@ -41,3 +41,25 @@ export type TrainerCardResponse = {
     yearsOfExperience: number
 
 }
+
+export type CourseCardResponse = {
+    courseId: string,
+    title: string,
+    description: string,
+    price: number,
+    maxParticipants: number,
+    trainerName: string,
+    active: boolean,
+    totalParticipants: number
+
+}
+
+export type SettingsInfoClient = {
+    id: string,
+    firstName: string,
+    lastName: string,
+    address: string,
+    email: string,
+    phoneNumber: string,
+    userType: string
+}
