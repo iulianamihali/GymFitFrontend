@@ -280,8 +280,33 @@ function Sidebar() {
                                               }}/>
 
                             </ListItemButton>
+                        </ListItem>
 
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                onClick={() => navigate("/dashboard/trainer/profileTrainer")}
+                                sx={{
+                                    justifyContent: "center",
+                                    paddingLeft: 5.5,
+                                    gap: 1.5,
+                                    color: "white",
+                                    transition: "background-color 0.3s ease",
+                                    "&:hover": {
+                                        backgroundColor: "#252223",
+                                        color: "white",
+                                    },
+                                }}
+                            >
+                                <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                                    <SettingsIcon sx={{ color: "white" }} />
+                                </ListItemIcon>
+                                <ListItemText primary="Profile"
+                                              sx={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                              }}/>
 
+                            </ListItemButton>
                         </ListItem>
                     </>
                 )}

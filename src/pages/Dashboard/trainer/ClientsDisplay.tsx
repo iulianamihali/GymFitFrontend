@@ -6,19 +6,26 @@ import { API_URL } from "../../../authorization/config";
 import { ApplicationContext } from "../../../context/ApplicationContext";
 import { Box, Typography } from "@mui/material";
 
+
 export function ClientsDisplay() {
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
 
     const [clients, setClients] = useState<ClientsOfTrainer[]>([]);
 
     useEffect(() => {
-        if (!userId) return;
+        if (!userId || !token) return;
         axios
-            .get(`${API_URL}/trainer/allClients/${userId}`)
+            .get(`${API_URL}/trainer/allClients/${userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
             .then(({ data }) => setClients(data))
             .catch((err) => console.error("Failed to fetch CLIENTS:", err));
-    }, [userId]);
+    }, [userId,token]);
 
     return (
         <Box

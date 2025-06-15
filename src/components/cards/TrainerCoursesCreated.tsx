@@ -3,7 +3,6 @@ import {
     Card, CardContent, Typography, List, ListItem, ListItemAvatar,
     ListItemText, Avatar, Box, IconButton, Button, Modal, Divider
 } from "@mui/material";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import axios from "axios";
 import { API_URL } from "../../authorization/config";
 import { ApplicationContext } from "../../context/ApplicationContext";
@@ -16,6 +15,7 @@ const SLICE_AT = 5;
 export default function TrainerCoursesCreated() {
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
 
     const [showAll, setShowAll] = useState(false);
     const [open, setOpen] = useState<boolean>(false);
@@ -23,12 +23,18 @@ export default function TrainerCoursesCreated() {
     const [courseDetails, setCourseDetails] = useState<CourseDetails | null>(null);
 
     useEffect(() => {
-        if (!userId) return;
+        if (!userId || !token) return;
+
         axios
-            .get<CoursesCreatedByTrainer[]>(`${API_URL}/trainer/coursesCreatedByTrainer/${userId}`)
+            .get<CoursesCreatedByTrainer[]>(`${API_URL}/trainer/coursesCreatedByTrainer/${userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
             .then(({ data }) => setCoursesCreated(data))
             .catch((err) => console.error(err));
-    }, [userId]);
+    }, [userId,token]);
 
     const handleGetCourseDetails = (courseId: string) => {
         axios.get<CourseDetails>(`${API_URL}/trainer/courseDetails/${courseId}`)

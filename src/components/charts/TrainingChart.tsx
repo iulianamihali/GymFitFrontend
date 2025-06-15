@@ -16,6 +16,7 @@ function TrainingChart() {
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
     const userType = auth?.user?.userType;
+    const token = auth?.user?.token;
 
     useEffect(() => {
         if (!userId) return;
@@ -32,15 +33,18 @@ function TrainingChart() {
 
         if (!url) return;
 
-        axios.get<MonthlyProgress[]>(url)
+        axios.get<MonthlyProgress[]>(url,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(({ data }) => {
-                console.log(data);
                 setChartData(data);
             })
             .catch((err) => {
                 console.error("Failed to fetch chart data:", err);
             });
-    }, [userId, userType]);
+    }, [userId, userType, token]);
 
     return (
         <Box

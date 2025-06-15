@@ -10,13 +10,13 @@ import { ApplicationContext } from "../../context/ApplicationContext";
 import { ClientCourses } from "./types";
 import {CourseDetails} from "../cards/types";
 
-const MAX_HEIGHT = 460;        // ➊ valoare unică – o poți schimba oricând
-const SLICE_AT   = 5;          // ➋ câte cursuri arăți „pe scurt”
+const MAX_HEIGHT = 460;
+const SLICE_AT   = 5;
 
 export default function ActiveCoursesList() {
     const auth   = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
-
+    const token = auth?.user?.token;
 
     const [courses, setCourses] = useState<ClientCourses[]>([]);
     const [showAll, setShowAll] = useState(false);
@@ -25,14 +25,22 @@ export default function ActiveCoursesList() {
 
     useEffect(() => {
         axios
-            .get<ClientCourses[]>(`${API_URL}/client/courses/${userId}`)
+            .get<ClientCourses[]>(`${API_URL}/client/courses/${userId}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             .then(({ data }) => setCourses(data))
             .catch((err) => console.error(err));
-    }, []);
+    }, [userId,token]);
 
     const handleGetCourseDetails = (courseId: string) => {
         axios
-            .get<CourseDetails>(`${API_URL}/client/courseDetails/${courseId}`)
+            .get<CourseDetails>(`${API_URL}/client/courseDetails/${courseId}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             .then(({ data }) => {
                 setCourseDetails(data);
                 setOpen(true);

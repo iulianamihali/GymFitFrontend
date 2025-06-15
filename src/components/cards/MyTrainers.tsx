@@ -33,12 +33,19 @@ function getInitials(name: string) {
 export default function MyTrainers({ open, onClose}: Props) {
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
+
     const today = dayjs();
     const[trainers, setTrainers] = useState<TrainerCardResponse[]>([]);
 
     useEffect(() => {
         axios
-            .get<TrainerCardResponse[]>(`${API_URL}/client/myTrainers/${userId}`)
+            .get<TrainerCardResponse[]>(`${API_URL}/client/myTrainers/${userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
             .then(({ data }) => {
                 const temp =  [...data].sort((a, b) => {
                     const aDate = dayjs(a.endInterval);
@@ -56,7 +63,7 @@ export default function MyTrainers({ open, onClose}: Props) {
                 setTrainers(data);
             })
             .catch((err) => console.error(err));
-    }, [open]);
+    }, [open,userId,token]);
 
     return (
         <Modal open={open} onClose={onClose}>

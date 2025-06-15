@@ -94,3 +94,18 @@ export type ClientsOfTrainer = {
     email: string,
     phoneNumber: string
 }
+
+export type TrainerProfileSettings = {
+    id: string,
+    firstName: string,
+    lastName: string,
+    address: string,
+    email: string,
+    phoneNumber: string,
+    specialization: string,
+    yearsOfExperience: number,
+    certification: string,
+    pricePerHour: number,
+    startInterval: string,
+    endInterval: string
+}

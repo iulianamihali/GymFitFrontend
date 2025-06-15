@@ -37,6 +37,7 @@ export default function CourseCard({ course, updatedNumber }: Props) {
 
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
 
     const colorIndex = course.trainerName.length % colors.length;
     const initials = getInitials(course.trainerName);
@@ -49,6 +50,10 @@ export default function CourseCard({ course, updatedNumber }: Props) {
             .post<string>(`${API_URL}/client/enrollmentCourse`, {
                 clientId: userId,
                 courseId: course.courseId
+            },{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
             .then(({ data }) => {
                 if(data == "Success")

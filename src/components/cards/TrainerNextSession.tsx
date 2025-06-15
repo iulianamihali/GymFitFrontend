@@ -11,16 +11,26 @@ export default function TrainerNextSession() {
     const [nextSession, setNextSession] = useState<NextTrainingSession>();
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
 
     useEffect(() => {
+
+    if(!userId || !token)
+        return;
+
         axios
-            .get<NextTrainingSession>(`${API_URL}/trainer/nextSession/${userId}`)
+            .get<NextTrainingSession>(`${API_URL}/trainer/nextSession/${userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
             .then(({ data }) => {
                 console.log("Next training data:", data);
                 setNextSession(data);
             })
             .catch((err) => console.error("Failed to fetch next training:", err));
-    }, []);
+    }, [userId,token]);
 
     const dateTimeFormat = (dateTime: string) => {
         const date = new Date(dateTime);

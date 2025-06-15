@@ -8,11 +8,14 @@ import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import EditCourseModal from "../../../components/cards/EditCourseModal";
 import AddIcon from "@mui/icons-material/Add";
+import Cookies from "js-cookie";
 
 
 export default function CoursesTrainer() {
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
+
     const [courses, setCourses] = useState<CoursesCreatedByTrainer[]>([]);
     const [openEdit, setOpenEdit] = useState<boolean>(false);
     const [course, setCourse] = useState<CoursesCreatedByTrainer>();
@@ -20,13 +23,17 @@ export default function CoursesTrainer() {
     const [isForEdit, setIsForEdit] = useState<boolean>(false);
 
     useEffect(() => {
-        if (!userId) return;
-
+        if (!userId || !token) return;
         axios
-            .get(`${API_URL}/trainer/coursesCreatedByTrainer/${userId}`)
+            .get(`${API_URL}/trainer/coursesCreatedByTrainer/${userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
             .then(({ data }) => setCourses(data))
             .catch((err) => console.error("Failed to fetch courses:", err));
-    }, [userId, updatedNumber]);
+    }, [userId, updatedNumber,token]);
 
 
     return (

@@ -1,9 +1,5 @@
 import {Card, CardContent, Grid, Typography } from "@mui/material";
 import React, {useContext} from "react";
-import ActiveCoursesList from "../../../components/activeCoursesList/ActiveCoursesList";
-import ActiveSubscriptionInfoCard from "../../../components/cards/ActiveSubscriptionInfoCard";
-import AddSessionCard from "../../../components/cards/AddNewSessionCard";
-import NextTrainingInfoCard from "../../../components/cards/NextTrainingInfoCard";
 import SummaryTrainerCard from "../../../components/cards/SummaryTrainerCard";
 import TrainerCoursesCreated from "../../../components/cards/TrainerCoursesCreated";
 import TrainerNextSession from "../../../components/cards/TrainerNextSession";

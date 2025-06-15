@@ -9,17 +9,22 @@ import {ApplicationContext} from "../../context/ApplicationContext";
 export default function SummaryTrainerCard() {
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
     const[summaryTrainerActivity, setSummaryTrainerActivity] = useState<SummaryTrainerActivity|null>(null);
 
 
     useEffect(() => {
         axios
-            .get<SummaryTrainerActivity>(`${API_URL}/trainer/summaryTrainerActivity/${userId}`)
+            .get<SummaryTrainerActivity>(`${API_URL}/trainer/summaryTrainerActivity/${userId}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
             .then(({ data }) => {
                 setSummaryTrainerActivity(data);
             })
             .catch((err) => console.error("Failed to fetch next subscription:", err));
-    }, []);
+    }, [userId,token]);
 
     const dateTimeFormat = (dateTime: string) => {
         const date = new Date(dateTime);

@@ -9,6 +9,7 @@ import {ApplicationContext} from "../../context/ApplicationContext";
 export default function ActiveSubscriptionInfoCard() {
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
 
     const [open, setOpen] = useState<boolean>(false);
     const [activeSubscription, setActiveSubscription] = useState<ActiveSubscriptionInfoResponse>();
@@ -16,14 +17,18 @@ export default function ActiveSubscriptionInfoCard() {
 
     useEffect(() => {
         axios
-            .get<ActiveSubscriptionInfoResponse>(`${API_URL}/client/activeSubscription/${userId}`)
+            .get<ActiveSubscriptionInfoResponse>(`${API_URL}/client/activeSubscription/${userId}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             .then(({ data }) => {
                 setActiveSubscription(data);
                 console.log("DATEDATEDATAE");
                 console.log(data);
             })
             .catch((err) => console.error("Failed to fetch next subscription:", err));
-    }, []);
+    }, [token, userId]);
 
     const dateTimeFormat = (dateTime: string) => {
         const date = new Date(dateTime);

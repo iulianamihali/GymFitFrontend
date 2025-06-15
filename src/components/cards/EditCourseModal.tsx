@@ -25,6 +25,8 @@ type Props = {
 export default function EditCourseModal({ open, onClose, course, updateNumber, isForEdit}: Props) {
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
+
     const [editedCourse, setEditedCourse] = useState(course);
 
     useEffect(() => {
@@ -45,7 +47,12 @@ export default function EditCourseModal({ open, onClose, course, updateNumber, i
     const handleSave = () => {
         if(isForEdit){
             axios
-                .put(`${API_URL}/trainer/editCourse`, editedCourse)
+                .put(`${API_URL}/trainer/editCourse`, editedCourse,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
                 .then(() => {
                     alert("Saved successfully");
                     updateNumber();
@@ -55,7 +62,12 @@ export default function EditCourseModal({ open, onClose, course, updateNumber, i
                 });
         }else{
             axios
-                .post(`${API_URL}/trainer/addCourse/${userId}`, editedCourse)
+                .post(`${API_URL}/trainer/addCourse/${userId}`, editedCourse,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
                 .then(() => {
                     alert("Saved successfully");
                     updateNumber();

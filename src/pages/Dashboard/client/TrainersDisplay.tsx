@@ -6,9 +6,12 @@ import {API_URL} from "../../../authorization/config";
 import {Box, Grid, Typography, FormControl, InputLabel, MenuItem, Select, Button} from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
 import MyTrainers from "../../../components/cards/MyTrainers";
+import {ApplicationContext} from "../../../context/ApplicationContext";
 
 export function TrainersDisplay() {
-
+    const auth = useContext(ApplicationContext);
+    const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
 
     const [trainerCards, setTrainerCards] = useState<TrainerCardResponse[]>([]);
     const [specializationSelected, setSpecializationSelected] = useState<string|null>(null);
@@ -21,20 +24,28 @@ export function TrainersDisplay() {
             : "";
 
         axios
-            .get<TrainerCardResponse[]>(`${API_URL}/client/trainerCardInfo${filterQuery}`)
+            .get<TrainerCardResponse[]>(`${API_URL}/client/trainerCardInfo${filterQuery}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             .then(({ data }) => {
                 setTrainerCards(data);
             })
             .catch((err) => console.error(err));
-    }, [specializationSelected]);
+    }, [specializationSelected, token,userId]);
 
 
     useEffect(() => {
         axios
-            .get<string[]>(`${API_URL}/client/allSpecializations`)
+            .get<string[]>(`${API_URL}/client/allSpecializations`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             .then(({ data }) => setAllSpecializations(data))
             .catch((err) => console.error("Failed to fetch specializations", err));
-    }, []);
+    }, [token,userId]);
 
 
     return (

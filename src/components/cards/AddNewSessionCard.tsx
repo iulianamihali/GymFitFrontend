@@ -13,6 +13,7 @@ import { API_URL } from "../../authorization/config";
 const AddSessionCard = () => {
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
 
     const [open, setOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
@@ -39,10 +40,14 @@ const AddSessionCard = () => {
             .post<TrainerIntervalResponse[]>(`${API_URL}/client/trainerIntervals`, {
                 clientId: userId,
                 selectedDate: selectedDate
+            },{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
             .then(({ data }) => setTrainerIntervals(data))
             .catch((err) => console.error("Failed to fetch intervals:", err));
-    }, [selectedDate]);
+    }, [selectedDate,userId, token]);
 
     const handleAddSession = () => {
         if (!userId || !selectedDate || !sessionTitle || !selectedInterval) return;
@@ -61,7 +66,11 @@ const AddSessionCard = () => {
             notes: notes
         };
 
-        axios.post(`${API_URL}/client/addSession`, payload)
+        axios.post(`${API_URL}/client/addSession`, payload,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(() => handleClose())
             .catch(err => console.error("Failed to add session:", err));
 

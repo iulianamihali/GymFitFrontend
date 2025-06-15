@@ -4,65 +4,60 @@ import {
     TextField,
     Typography,
     Button,
-    MenuItem,
     Card,
     CardContent,
     CircularProgress,
-    Box,
+    Box
 } from "@mui/material";
 import axios from "axios";
 import { ApplicationContext } from "../../../context/ApplicationContext";
 import { API_URL } from "../../../authorization/config";
-import {SettingsInfoClient} from "../../../components/cards/types";
+import { TrainerProfileSettings } from "../../../components/cards/types";
+import Cookies from "js-cookie";
 
-const genders = ["Male", "Female", "Other"];
 
-const ProfileSettings = () => {
+const TrainerProfileSettingsComponent = () => {
     const context = useContext(ApplicationContext);
     const userId = context?.user?.userId;
     const token = context?.user?.token;
 
-    const [formData, setFormData] = useState<SettingsInfoClient | null>(null);
+    const [formData, setFormData] = useState<TrainerProfileSettings | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!userId) return;
+
+        if (!userId || !token) return;
         axios
-            .get<SettingsInfoClient>(`${API_URL}/client/settingsInfoClient/${userId}`,{
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+            .get<TrainerProfileSettings>(`${API_URL}/trainer/profileTrainer/${userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
             .then(({ data }) => {
                 setFormData(data);
                 setLoading(false);
             })
-            .catch((error) => {
-                console.error("Failed to fetch settings", error);
-                setLoading(false);
-            });
-    }, [userId, token]);
+            .catch(() => setLoading(false));
+    }, [userId,token]);
 
-    const handleChange = (field: keyof SettingsInfoClient, value: string) => {
+    const handleChange = (field: keyof TrainerProfileSettings, value: string | number) => {
         if (!formData) return;
         setFormData({ ...formData, [field]: value });
     };
 
     const handleSubmit = () => {
-        if (!formData || !userId) return;
+        if (!formData || !userId || !token) return;
+
 
         axios
-            .put(`${API_URL}/client/editProfile`, formData,{
+            .put(`${API_URL}/trainer/editTrainerProfile`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
-            .then(() => {
-                alert("Saved successfully");
-            })
-            .catch((error) => {
-                console.error("Failed to save settings", error);
-            });
+            .then(() => alert("Saved successfully"))
+            .catch((error) => console.error("Failed to save settings", error));
     };
 
     if (loading || !formData) {
@@ -74,72 +69,31 @@ const ProfileSettings = () => {
     }
 
     return (
-
-        <Box display="flex" justifyContent="center" mt={5} >
+        <Box display="flex" justifyContent="center" mt={5}>
             <Card
                 sx={{
                     backgroundColor: "#362f2f",
                     color: "white",
                     p: 4,
                     borderRadius: 3,
-                    maxWidth: 800,
+                    maxWidth: 900,
                     width: "100%",
                     boxShadow: 5,
                 }}
             >
                 <CardContent>
                     <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold", color: "#ff5722" }}>
-                        Profile Settings
+                        Trainer Profile Settings
                     </Typography>
 
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                label="First Name"
+                                label="Name"
                                 value={formData.firstName}
-                                onChange={(e) => handleChange("firstName", e.target.value)}
                                 fullWidth
                                 variant="outlined"
-                                InputProps={{ sx: { color: "white" } }}
-                                InputLabelProps={{ sx: { color: "#ff5722" } }}
-                            />
-                        </Grid>
-
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                label="Last Name"
-                                value={formData.lastName}
-                                onChange={(e) => handleChange("lastName", e.target.value)}
-                                fullWidth
-                                variant="outlined"
-                                InputProps={{ sx: { color: "white" } }}
-                                InputLabelProps={{ sx: { color: "#ff5722" } }}
-                            />
-                        </Grid>
-
-
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                label="Phone Number"
-                                value={formData.phoneNumber}
-                                onChange={(e) => handleChange("phoneNumber", e.target.value)}
-                                fullWidth
-                                variant="outlined"
-                                InputProps={{ sx: { color: "white" } }}
-                                InputLabelProps={{ sx: { color: "#ff5722" } }}
-                                inputProps={{ maxLength: 10 ,minLength: 10}}
-
-                            />
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <TextField
-                                label="Address"
-                                value={formData.address}
-                                onChange={(e) => handleChange("address", e.target.value)}
-                                fullWidth
-                                variant="outlined"
-                                InputProps={{ sx: { color: "white" } }}
+                                InputProps={{ readOnly: true, sx: { color: "#bbbbbb" } }}
                                 InputLabelProps={{ sx: { color: "#ff5722" } }}
                             />
                         </Grid>
@@ -157,11 +111,100 @@ const ProfileSettings = () => {
 
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                label="User Type"
-                                value={formData.userType}
+                                label="Phone Number"
+                                value={formData.phoneNumber}
+                                onChange={(e) => handleChange("phoneNumber", e.target.value)}
                                 fullWidth
                                 variant="outlined"
-                                InputProps={{ readOnly: true, sx: { color: "#bbbbbb" } }}
+                                InputProps={{ sx: { color: "white" } }}
+                                InputLabelProps={{ sx: { color: "#ff5722" } }}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Address"
+                                value={formData.address}
+                                onChange={(e) => handleChange("address", e.target.value)}
+                                fullWidth
+                                variant="outlined"
+                                InputProps={{ sx: { color: "white" } }}
+                                InputLabelProps={{ sx: { color: "#ff5722" } }}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Specialization"
+                                value={formData.specialization}
+                                onChange={(e) => handleChange("specialization", e.target.value)}
+                                fullWidth
+                                variant="outlined"
+                                InputProps={{ sx: { color: "white" } }}
+                                InputLabelProps={{ sx: { color: "#ff5722" } }}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Certification"
+                                value={formData.certification}
+                                onChange={(e) => handleChange("certification", e.target.value)}
+                                fullWidth
+                                variant="outlined"
+                                InputProps={{ sx: { color: "white" } }}
+                                InputLabelProps={{ sx: { color: "#ff5722" } }}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Years of Experience"
+                                type="number"
+                                value={formData.yearsOfExperience}
+                                onChange={(e) => handleChange("yearsOfExperience", parseInt(e.target.value))}
+                                fullWidth
+                                variant="outlined"
+                                InputProps={{ sx: { color: "white" } }}
+                                InputLabelProps={{ sx: { color: "#ff5722" } }}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Price Per Hour"
+                                type="number"
+                                value={formData.pricePerHour}
+                                onChange={(e) => handleChange("pricePerHour", parseFloat(e.target.value))}
+                                fullWidth
+                                variant="outlined"
+                                InputProps={{ sx: { color: "white" } }}
+                                InputLabelProps={{ sx: { color: "#ff5722" } }}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Start Interval"
+                                type="time"
+                                value={formData.startInterval}
+                                onChange={(e) => handleChange("startInterval", e.target.value)}
+                                fullWidth
+                                variant="outlined"
+                                InputProps={{ sx: { color: "white" } }}
+                                InputLabelProps={{ sx: { color: "#ff5722" } }}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="End Interval"
+                                type="time"
+                                value={formData.endInterval}
+                                onChange={(e) => handleChange("endInterval", e.target.value)}
+                                fullWidth
+                                variant="outlined"
+                                InputProps={{ sx: { color: "white" } }}
                                 InputLabelProps={{ sx: { color: "#ff5722" } }}
                             />
                         </Grid>
@@ -189,4 +232,4 @@ const ProfileSettings = () => {
     );
 };
 
-export default ProfileSettings;
+export default TrainerProfileSettingsComponent;

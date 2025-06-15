@@ -37,6 +37,7 @@ function getInitials(name: string) {
 export default function TrainerCard({ trainer }: Props) {
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
+    const token = auth?.user?.token;
 
     const colorIndex = trainer.name.length % colors.length;
     const initials = getInitials(trainer.name);
@@ -69,6 +70,10 @@ export default function TrainerCard({ trainer }: Props) {
                 trainerId: trainer.id,
                 startDate: startDate,
                 endDate: endDate
+            },{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
             .then(({ data }) => alert(`You successfully enrolled with ${trainer.name}!`))
             .catch((err) => console.error("Failed to add enrollment:", err));

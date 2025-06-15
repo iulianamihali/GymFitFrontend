@@ -1,14 +1,16 @@
 import React, {useContext, useEffect, useState} from "react";
-import TrainerCard from "../../../components/cards/TrainerCard";
-import {CourseCardResponse, CourseDetails, TrainerCardResponse} from "../../../components/cards/types";
+import {CourseCardResponse} from "../../../components/cards/types";
 import axios from "axios";
 import {API_URL} from "../../../authorization/config";
-import {Box, Grid, Typography, FormControl, InputLabel, MenuItem, Select, Button, TextField} from "@mui/material";
+import {Box, Grid, Typography, TextField} from "@mui/material";
 
 import CourseCard from "../../../components/cards/CourseCard";
+import {ApplicationContext} from "../../../context/ApplicationContext";
 
 export function CoursesDisplay() {
-
+    const context = useContext(ApplicationContext);
+    const userId = context?.user?.userId;
+    const token = context?.user?.token;
 
     const [coursesCard, setCoursesCards] = useState<CourseCardResponse[]>([]);
     const [searchCourse, setSearchCourse] = useState<string|null>(null);
@@ -22,12 +24,16 @@ export function CoursesDisplay() {
             : "";
 
         axios
-            .get<CourseCardResponse[]>(`${API_URL}/client/coursesCardInfo${filterQuery}`)
+            .get<CourseCardResponse[]>(`${API_URL}/client/coursesCardInfo${filterQuery}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             .then(({ data }) => {
                setCoursesCards(data);
             })
             .catch((err) => console.error(err));
-    }, [searchCourse,numberUpdated]);
+    }, [searchCourse,numberUpdated, token,userId]);
 
 
 
