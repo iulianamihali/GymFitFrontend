@@ -79,9 +79,11 @@ export type SummaryTrainerActivity = {
 }
 
 export type CoursesCreatedByTrainer = {
+    id?: string|null,
     title: string,
     description: string,
     price: number,
     maxParticipants: number,
-    totalParticipants: number
+    totalParticipants: number,
+    active: boolean
 }

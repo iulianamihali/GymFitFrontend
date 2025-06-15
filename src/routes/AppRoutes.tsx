@@ -8,6 +8,7 @@ import {CoursesDisplay} from "../pages/Dashboard/client/CoursesDisplay";
 import ProfileSettings from '../pages/Dashboard/client/ProfileSettings';
 import TrainerLayout from "../pages/Dashboard/TrainerLayout";
 import {DashboardContentTrainer} from "../pages/Dashboard/trainer/DashboardContentTrainer";
+import CoursesTrainer from '../pages/Dashboard/trainer/CoursesTrainer';
 
 function AppRoutes()
 {
@@ -22,6 +23,8 @@ function AppRoutes()
             </Route>
             <Route path="/dashboard/trainer" element={<TrainerLayout />}>
                 <Route index element={<DashboardContentTrainer/>} />
+                <Route path="coursesTrainer" element={<CoursesTrainer />} />
+
             </Route>
 
         </Routes>
