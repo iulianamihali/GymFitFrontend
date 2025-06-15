@@ -10,6 +10,9 @@ import { ApplicationContext } from "../../context/ApplicationContext";
 import { ClientCourses } from "./types";
 import {CourseDetails} from "../cards/types";
 
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import GroupIcon from '@mui/icons-material/Group';
+
 const MAX_HEIGHT = 460;
 const SLICE_AT   = 5;
 
@@ -156,8 +159,8 @@ export default function ActiveCoursesList() {
                         top: "50%",
                         left: "50%",
                         transform: "translate(-50%, -50%)",
-                        bgcolor: "white",          // ⇦ alb curat
-                        color: "#1e1d1d",          // ⇦ text închis
+                        bgcolor: "white",          
+                        color: "#1e1d1d",
                         borderRadius: 2,
                         boxShadow: 24,
                         p: 4,
@@ -166,32 +169,34 @@ export default function ActiveCoursesList() {
                         fontFamily: "Poppins, sans-serif",
                     }}
                 >
-                    {/* TITLU */}
                     <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
                         {courseDetails?.title}
                     </Typography>
 
-                    {/* SUBTITLU trainer */}
                     <Typography sx={{ mb: 2, color: "#555" }}>
                         Trainer: <b>{courseDetails?.trainerName}</b>
                     </Typography>
 
                     <Divider sx={{ borderColor: "#e0e0e0", mb: 2 }} />
 
-                    {/* DESCRIERE */}
                     <Typography sx={{ mb: 2, fontSize: 14, lineHeight: 1.45 }}>
                         {courseDetails?.description}
                     </Typography>
 
-                    {/* PREȚ + PARTICIPANȚI */}
-                    <Typography sx={{ mb: 0.5 }}>
-                        💰 <b>{courseDetails?.price.toFixed(2)} RON</b>
-                    </Typography>
-                    <Typography sx={{ mb: 3 }}>
-                        👥 Max participants: <b>{courseDetails?.maxParticipants}</b>
-                    </Typography>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
+                        <MonetizationOnIcon sx={{ color: "#ff774c" }} />
+                        <Typography variant="body1">
+                            <b>{courseDetails?.price.toFixed(2)} RON</b>
+                        </Typography>
+                    </Box>
 
-                    {/* BUTON OK – portocaliu gradient */}
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
+                        <GroupIcon sx={{ color: "#1976d2" }} />
+                        <Typography variant="body1">
+                            Max participants: <b>{courseDetails?.maxParticipants}</b>
+                        </Typography>
+                    </Box>
+
                     <Button
                         fullWidth
                         variant="contained"
