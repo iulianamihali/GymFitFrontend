@@ -41,6 +41,23 @@ function Home(){
     const [startInterval, setStartInterval] = useState('');
     const [endInterval, setEndInterval] = useState('');
 
+    // cand se randeaza prima data sa redirectioneze daca e deja logat
+    useEffect( () => {
+        const savedUser = Cookies.get("user");
+
+        if (savedUser) {
+            const parsedUser = JSON.parse(savedUser);
+
+            auth?.updateUser(parsedUser);
+
+            if (parsedUser.userType === "Client") {
+                navigate("/dashboard/client");
+            } else if (parsedUser.userType === "Trainer") {
+                navigate("/dashboard/trainer");
+            }
+        }
+    },[])
+
     useEffect(() => {
         if(openLogin===false)
         {

@@ -9,20 +9,27 @@ import Avatar from "@mui/material/Avatar";
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import { ListItemIcon } from "@mui/material";
+import {Box, ListItemIcon } from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
 import SettingsIcon from "@mui/icons-material/Settings";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import GroupIcon from "@mui/icons-material/Group";
+import LogoutIcon from "@mui/icons-material/Logout";
+import Cookies from 'js-cookie';
 
 function Sidebar() {
     const context = useContext(ApplicationContext);
     const user = context?.user;
     const navigate = useNavigate();
 
-
+    const handleLogout = () => {
+        Cookies.remove('user');
+        context?.updateUser(null);
+        navigate("/");
+    }
     return (
+
         <Drawer
             variant="permanent"
             anchor="left"
@@ -35,6 +42,8 @@ function Sidebar() {
                     backgroundColor: "#362f2f",
                     color: "#f2f2f2",
                     // boxShadow: "inset -2px 0 6px rgba(0,0,0,0.5)",
+                    display: "flex",
+                    flexDirection: "column"
                 },
             }}
         >
@@ -73,8 +82,7 @@ function Sidebar() {
             </div>
 
 
-
-            <List style={{marginTop: "1rem"}}>
+            <Box sx={{ display: "flex", flexDirection: "column", flex: 1, mt: 2 }}>
 
                 {user?.userType === "Client" && (
                     <>
@@ -308,11 +316,39 @@ function Sidebar() {
 
                             </ListItemButton>
                         </ListItem>
+
+
+
                     </>
                 )}
 
 
-            </List>
+                <ListItem disablePadding sx={{ marginTop: "auto" }}>
+                    <ListItemButton
+                        onClick={handleLogout}
+                        sx={{
+                            justifyContent: "center",
+                            paddingLeft: 5.5,
+                            gap: 1.5,
+                            color: "white",
+                            transition: "background-color 0.3s ease",
+                            "&:hover": {
+                                backgroundColor: "#252223",
+                                color: "white",
+                            },
+                        }}
+                    >
+                        <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                            <LogoutIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary="Log Out"
+                            sx={{ display: "flex", alignItems: "center" }}
+                        />
+                    </ListItemButton>
+                </ListItem>
+
+            </Box>
         </Drawer>
     );
 }
