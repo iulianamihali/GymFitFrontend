@@ -85,6 +85,9 @@ const ProfileSettings = () => {
                     maxWidth: 800,
                     width: "100%",
                     boxShadow: 5,
+                    mt: 7,
+                    mr: 4
+
                 }}
             >
                 <CardContent>

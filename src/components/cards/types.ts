@@ -109,3 +109,10 @@ export type TrainerProfileSettings = {
     startInterval: string,
     endInterval: string
 }
+
+export type LeaveReview = {
+    ratingValue: number,
+    comment: string,
+    clientId: string,
+    trainerId: string
+}

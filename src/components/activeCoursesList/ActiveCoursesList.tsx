@@ -59,9 +59,9 @@ export default function ActiveCoursesList() {
                 background: "linear-gradient(180deg, #2e2b2b 0%, #1c1a1a 100%)",
                 color: "white",
                 borderRadius: 2,
-                width: 280,
-                maxHeight: 480,      // ← limitezi la 460 px
-                overflow: "hidden",  // ← blochezi extinderea; surplusul se ascunde
+                width: { xs: "100%", sm: 280 }, // full width pe mobile
+                maxHeight: { xs: "none", sm: 480 }, // fără limitare de înălțime pe mobile
+                overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
             }}
@@ -159,7 +159,7 @@ export default function ActiveCoursesList() {
                         top: "50%",
                         left: "50%",
                         transform: "translate(-50%, -50%)",
-                        bgcolor: "white",          
+                        bgcolor: "white",
                         color: "#1e1d1d",
                         borderRadius: 2,
                         boxShadow: 24,

@@ -17,6 +17,12 @@ export function TrainersDisplay() {
     const [specializationSelected, setSpecializationSelected] = useState<string|null>(null);
     const [allSpecializations, setAllSpecializations] = useState<string[]>([]);
     const[open, setOpen] = useState<boolean>(false);
+    const[reloadCard, setReloadCard] = useState<number>(0);
+
+    const handleReload = () => {
+        setReloadCard(x => x+1);
+    }
+
 
     useEffect(() => {
         const filterQuery = specializationSelected
@@ -33,7 +39,7 @@ export function TrainersDisplay() {
                 setTrainerCards(data);
             })
             .catch((err) => console.error(err));
-    }, [specializationSelected, token,userId]);
+    }, [specializationSelected, token,userId, reloadCard]);
 
 
     useEffect(() => {
@@ -50,51 +56,88 @@ export function TrainersDisplay() {
 
     return (
         <>
-        <Box sx={{ backgroundColor: "#252323", minHeight: "100vh", padding: 2 }}>
-            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4 }}>
-                <Typography variant="h6" sx={{ color: "#ccc" }}>
-                    Choose from our certified personal trainers to elevate your fitness journey.
-                </Typography>
-                <Button
-                    variant="contained"
-                    startIcon={<GroupIcon />}
+            <Box sx={{ backgroundColor: "#252323", minHeight: "100vh", pt: 5, px: 2 }}>
+            <Box sx={{ mb: 4,
+                pb: 3,
+                borderBottom: "1px solid rgba(255,255,255,0.06)", }}>
+
+                <Typography
+                    variant="h6"
                     sx={{
-                        backgroundColor: "#ff5722",
-                        color: "white",
+                        color: "#ccc",
                         fontWeight: 600,
-                        borderRadius: "10px",
-                        paddingX: 3,
-                        paddingY: 1.2,
-                        boxShadow: "0px 3px 10px rgba(0,0,0,0.3)",
-                        textTransform: "none",
-                        ":hover": {
-                            backgroundColor: "#e64a19",
-                        },
-                    }}
-                    onClick={() => {
-                        setOpen(true);
+                        fontSize: "1.15rem",
+                        mb: 2,
                     }}
                 >
-                    My Trainers
-                </Button>
+                    Achieve lasting results with expert certified trainers by your side.
+                </Typography>
 
-                <FormControl size="small" sx={{ minWidth: 200 }}>
-                    <InputLabel sx={{ color: "#ccc" }}>Specialization</InputLabel>
-                    <Select
-                        value={specializationSelected || ""}
-                        label="Specialization"
-                        onChange={(e) => setSpecializationSelected(e.target.value || null)}
-                        sx={{ color: "#fff", borderColor: "#ccc" }}
+
+                <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 2,  }}>
+                    <Button
+                        variant="contained"
+                        startIcon={<GroupIcon />}
+                        sx={{
+                            backgroundColor: "#2e2e2e",
+                            color: "white",
+                            fontWeight: 600,
+                            fontSize: "0.9rem",
+                            borderRadius: "10px",
+                            px: 3,
+                            py: 1.2,
+                            textTransform: "none",
+                            boxShadow: "0px 4px 12px rgba(0,0,0,0.25)",
+
+                            ":hover": {
+                                backgroundColor: "#ef6c00",
+                                boxShadow: "0px 6px 16px rgba(0, 0, 0, 0.35)",
+                            },
+                            "& .MuiSvgIcon-root": {
+                                color: "#fb8c00",
+                            },
+                        }}
+                        onClick={() => setOpen(true)}
                     >
-                        <MenuItem value="">All</MenuItem>
-                        {allSpecializations.map((spec) => (
-                            <MenuItem key={spec} value={spec}>
-                                {spec}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                        My Trainers
+                    </Button>
+
+                    <FormControl size="small" sx={{ ml: 100,minWidth: 200 }}>
+                        <InputLabel
+                            sx={{
+                                color: "#bbb",
+                                fontSize: "0.85rem",
+                                fontWeight: 500,
+                                "&.Mui-focused": {
+                                    color: "#fb8c00",
+                                },
+                            }}
+                        >
+                            Specialization
+                        </InputLabel>
+                        <Select
+                            value={specializationSelected || ""}
+                            label="Specialization"
+                            onChange={(e) => setSpecializationSelected(e.target.value || null)}
+                            sx={{ color: "#fff",  backgroundColor: "#2e2e2e",   borderRadius: "10px",   "& .MuiOutlinedInput-notchedOutline": {
+                                    borderColor: "#fb8c00",
+                                },  "& .MuiSvgIcon-root": {
+                                    color: "#fb8c00",
+                                },
+                                boxShadow: "0px 4px 12px rgba(0,0,0,0.25)",
+                            }}
+                        >
+                            <MenuItem value="">All</MenuItem>
+                            {allSpecializations.map((spec) => (
+                                <MenuItem key={spec} value={spec}>
+                                    {spec}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
             </Box>
+
 
 
             <Grid container spacing={3}>
@@ -107,7 +150,7 @@ export function TrainersDisplay() {
 
         </Box>
 
-            <MyTrainers open={open} onClose={() => setOpen(false)}></MyTrainers>
+            <MyTrainers open={open} onClose={() => setOpen(false)} reloadCards={handleReload} reloadCard={reloadCard}></MyTrainers>
             </>
     );
 }

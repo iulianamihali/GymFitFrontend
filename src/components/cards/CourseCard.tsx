@@ -90,6 +90,7 @@ export default function CourseCard({ course, updatedNumber }: Props) {
             <Card
                 sx={{
                     display: "flex",
+
                     alignItems: "center",
                     p: 2,
                     bgcolor: "#362f2f",
@@ -121,6 +122,7 @@ export default function CourseCard({ course, updatedNumber }: Props) {
                         flexDirection: "column",
                         gap: 1.2,
                         justifyContent: "space-between",
+
                     }}
                 >
                     <Box>

@@ -83,8 +83,8 @@ const AddSessionCard = () => {
             <Card
                 onClick={handleOpen}
                 sx={{
-                    width: 280,
-                    height: 150,
+                    width: { xs: "100%", sm: 280 }, // full width pe mobile
+                    height: { xs: "auto", sm: 150 },
                     borderRadius: "16px",
                     bgcolor: "rgba(255,255,255,0.05)",
                     border: "2px dashed rgba(255,255,255,0.25)",

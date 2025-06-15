@@ -6,7 +6,8 @@ import {Box, Grid, Typography, TextField} from "@mui/material";
 
 import CourseCard from "../../../components/cards/CourseCard";
 import {ApplicationContext} from "../../../context/ApplicationContext";
-
+import SearchIcon from "@mui/icons-material/Search";
+import InputAdornment from "@mui/material/InputAdornment";
 export function CoursesDisplay() {
     const context = useContext(ApplicationContext);
     const userId = context?.user?.userId;
@@ -16,7 +17,9 @@ export function CoursesDisplay() {
     const [searchCourse, setSearchCourse] = useState<string|null>(null);
 
     const[numberUpdated, setNumberUpdated] = useState<number>(0);
-
+    const handleUpdateNumbers = () => {
+        setNumberUpdated(numberUpdated+1);
+    }
 
     useEffect(() => {
         const filterQuery = searchCourse
@@ -40,37 +43,72 @@ export function CoursesDisplay() {
 
     return (
         <>
-            <Box sx={{ backgroundColor: "#252323", minHeight: "100vh", padding: 2 }}>
-                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4 }}>
-                    <Typography variant="h6" sx={{ color: "#ccc" }}>
-                        Choose from our certified personal trainers to elevate your fitness journey.
+            <Box sx={{ backgroundColor: "#252323", minHeight: "100vh", padding: 2.5 }}>
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                        gap: 2,
+                        mb: 4,
+                        px: 1,
+                        pt:2
+                    }}
+                >
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontWeight: 600,
+                            fontSize: "1.25rem",
+                            color: "#fff",
+                            fontFamily: "Poppins, sans-serif",
+                        }}
+                    >
+                        Your Fitness Journey Starts with the Right Course
                     </Typography>
-
 
                     <TextField
                         value={searchCourse}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                            setSearchCourse(event.target.value)
-                        }
+                        onChange={(e) => setSearchCourse(e.target.value)}
                         placeholder="Search Course"
                         variant="outlined"
-                        type="text"
+                        size="small"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <SearchIcon sx={{ color: "#fb8c00", fontSize: "1.2rem" }} />
+                                </InputAdornment>
+                            ),
+                        }}
                         sx={{
                             backgroundColor: "#fff",
-                            borderRadius: 2,
-                            input: {
+                            borderRadius: "10px",
+                            width: { xs: "100%", sm: "260px" },
+                            "& .MuiOutlinedInput-root": {
                                 fontFamily: "Poppins, sans-serif",
+                                fontSize: "0.9rem",
+                                "& fieldset": {
+                                    borderColor: "#ccc",
+                                },
+                                "&:hover fieldset": {
+                                    borderColor: "#fb8c00",
+                                },
+                                "&.Mui-focused fieldset": {
+                                    borderColor: "#fb8c00",
+                                    boxShadow: "0 0 0 1px #fb8c00",
+                                },
                             },
                         }}
                     />
-
                 </Box>
+
 
 
                 <Grid container spacing={3}>
                     {coursesCard.map((course) => (
                         <Grid item xs={12} sm={6} md={4} key={course.courseId}>
-                            <CourseCard course={course} updatedNumber={() => {setNumberUpdated(numberUpdated+1);}} />
+                            <CourseCard course={course} updatedNumber={handleUpdateNumbers} />
                         </Grid>
                     ))}
                 </Grid>

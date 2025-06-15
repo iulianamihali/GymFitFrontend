@@ -49,8 +49,8 @@ export default function ActiveSubscriptionInfoCard() {
                 color: "white",
                 borderRadius: "16px",
                 boxShadow: 4,
-                width: 280,
-                height: 150,
+                width: { xs: "100%", sm: 280 }, // full width pe mobile
+                height: { xs: "auto", sm: 150 },
                 p: 2,
                 display: "flex",
                 flexDirection: "column",

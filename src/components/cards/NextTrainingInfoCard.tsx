@@ -51,8 +51,8 @@ export default function NextTrainingInfoCard() {
                 color: "white",
                 borderRadius: "16px",
                 boxShadow: 4,
-                width: 280,
-                height: 150,
+                width: { xs: "100%", sm: 280 }, // full width pe mobile, 280px pe desktop
+                height: { xs: "auto", sm: 150 },
                 p: 2,
                 display: "flex",
                 flexDirection: "column",
