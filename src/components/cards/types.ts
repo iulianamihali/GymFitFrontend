@@ -87,3 +87,10 @@ export type CoursesCreatedByTrainer = {
     totalParticipants: number,
     active: boolean
 }
+
+export type ClientsOfTrainer = {
+    name: string,
+    subscriptionType: string,
+    email: string,
+    phoneNumber: string
+}

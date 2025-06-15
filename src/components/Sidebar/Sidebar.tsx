@@ -14,6 +14,7 @@ import {useNavigate} from "react-router-dom";
 import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
 import SettingsIcon from "@mui/icons-material/Settings";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import GroupIcon from "@mui/icons-material/Group";
 
 function Sidebar() {
     const context = useContext(ApplicationContext);
@@ -244,6 +245,35 @@ function Sidebar() {
                                     <SportsGymnasticsIcon sx={{ color: "white" }} />
                                 </ListItemIcon>
                                 <ListItemText primary="Courses"
+                                              sx={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                              }}/>
+
+                            </ListItemButton>
+
+
+                        </ListItem>
+
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                onClick={() => navigate("/dashboard/trainer/clients")}
+                                sx={{
+                                    justifyContent: "center",
+                                    paddingLeft: 5.5,
+                                    gap: 1.5,
+                                    color: "white",
+                                    transition: "background-color 0.3s ease",
+                                    "&:hover": {
+                                        backgroundColor: "#252223",
+                                        color: "white",
+                                    },
+                                }}
+                            >
+                                <ListItemIcon sx={{ color: "white", minWidth: "0" }}>
+                                    <GroupIcon sx={{ color: "white" }} />
+                                </ListItemIcon>
+                                <ListItemText primary="Clients"
                                               sx={{
                                                   display: "flex",
                                                   alignItems: "center",
