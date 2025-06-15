@@ -116,3 +116,11 @@ export type LeaveReview = {
     clientId: string,
     trainerId: string
 }
+
+export type GetReviews = {
+    createdAt: string,
+    ratingValue: number,
+    comment: string,
+    clientName: string,
+    trainerName: string
+}

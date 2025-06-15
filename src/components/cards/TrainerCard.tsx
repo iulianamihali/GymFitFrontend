@@ -9,7 +9,7 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { deepOrange, deepPurple, blue, green } from "@mui/material/colors";
-import {TrainerCardResponse, TrainerIntervalResponse} from "./types";
+import {CourseDetails, GetReviews, TrainerCardResponse, TrainerIntervalResponse} from "./types";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import Grid from "@mui/material/Grid";
@@ -18,6 +18,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import axios from "axios";
 import {API_URL} from "../../authorization/config";
 import {ApplicationContext} from "../../context/ApplicationContext";
+import ReviewsModal from "./ReviewsModal";
 
 
 type Props = {
@@ -47,6 +48,14 @@ export default function TrainerCard({ trainer }: Props) {
     const canAddTrainer = startDate && endDate;
 
     const [openModal, setOpenModal] = useState<boolean>(false);
+
+    const [openReviewsModal, setOpenReviewsModal] = useState<boolean>(false);
+    const [reviews, setReviews] = useState<GetReviews[]>([]);
+
+    const handleOpenReviewsModal = () => {
+        getReviews();
+        setOpenReviewsModal(true);
+    }
     function InfoLine({ label, value }: { label: string; value: string }) {
         return (
             <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -79,6 +88,18 @@ export default function TrainerCard({ trainer }: Props) {
             .catch((err) => console.error("Failed to add enrollment:", err));
     }
 
+    const getReviews = () => {
+        axios.get<GetReviews[]>(`${API_URL}/client/getReviews/${trainer.id}`,{
+            headers: {
+            Authorization: `Bearer ${token}`
+        }
+        })
+            .then(({ data }) => {
+                setReviews(data);
+
+            })
+            .catch((err) => console.error(err));
+    }
     return (
         <>
         <Card
@@ -131,22 +152,44 @@ export default function TrainerCard({ trainer }: Props) {
                     ))}
                 </Box>
 
-                <Button
-                    onClick={() => setOpenModal(true)}
-                    variant="outlined"
-                    size="small"
-                    startIcon={<VisibilityIcon />}
-                    sx={{
-                        color: "white",
-                        borderColor: "white",
-                        "&:hover": {
-                            backgroundColor: "white",
-                            color: "#362f2f",
-                        },
-                    }}
-                >
-                    View Profile
-                </Button>
+                <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
+                    <Button
+                        onClick={() => setOpenModal(true)}
+                        variant="outlined"
+                        size="small"
+                        startIcon={<VisibilityIcon />}
+                        sx={{
+                            color: "white",
+                            borderColor: "white",
+                            "&:hover": {
+                                backgroundColor: "white",
+                                color: "#362f2f",
+                            },
+                        }}
+                    >
+                        View Profile
+                    </Button>
+
+                    <Button
+                        onClick={handleOpenReviewsModal}
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                            fontWeight: 500,
+                            fontFamily: "Poppins, sans-serif",
+                            borderColor: "#ff9800",
+                            color: "#ff9800",
+                            "&:hover": {
+                                backgroundColor: "#fff3e0",
+                                borderColor: "#fb8c00",
+                            },
+                        }}
+                    >
+                         Reviews
+                    </Button>
+                </Box>
+
+
             </CardContent>
         </Card>
 
@@ -235,10 +278,11 @@ export default function TrainerCard({ trainer }: Props) {
                         >
                             Enroll
                         </Button>
+
                     </Box>
                 </Modal>
+                <ReviewsModal open={openReviewsModal} onClose={() => setOpenReviewsModal(false)} trainerName={trainer.name} reviews={reviews}/>
             </LocalizationProvider>
-
 
         </>
     );
