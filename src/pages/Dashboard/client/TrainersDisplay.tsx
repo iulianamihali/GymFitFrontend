@@ -25,12 +25,13 @@ export function TrainersDisplay() {
 
 
     useEffect(() => {
-        const filterQuery = specializationSelected
-            ? `?$filter=specialization eq '${specializationSelected}'`
-            : "";
 
+        const filterQuery =
+            specializationSelected && specializationSelected !== "All"
+                ? `?specialization=${encodeURIComponent(specializationSelected)}`
+                : "";
         axios
-            .get<TrainerCardResponse[]>(`${API_URL}/client/trainerCardInfo${filterQuery}`,{
+            .get<TrainerCardResponse[]>(`${API_URL}/client/trainers${filterQuery}`,{
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

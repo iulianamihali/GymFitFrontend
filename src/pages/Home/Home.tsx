@@ -11,6 +11,8 @@ import {API_URL} from "../../authorization/config";
 import {LoginRequest, LoginResponse, RegisterRequest} from "./types";
 import Cookies from 'js-cookie'
 import {useNavigate} from "react-router-dom";
+import {LocalizationProvider, TimePicker} from '@mui/x-date-pickers';
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 function Home(){
     const navigate = useNavigate();
     const auth=useContext(ApplicationContext);
@@ -38,8 +40,8 @@ function Home(){
     const [yearsOfExperience, setYearsOfExperience] = useState<number>(0);
     const [certification, setCertification] = useState('');
     const [pricePerHour, setPricePerHour] = useState<number>(0);
-    const [startInterval, setStartInterval] = useState('');
-    const [endInterval, setEndInterval] = useState('');
+    const [startInterval, setStartInterval] = useState<string|null>('');
+    const [endInterval, setEndInterval] = useState<string|null>('');
 
     // cand se randeaza prima data sa redirectioneze daca e deja logat
     useEffect( () => {
@@ -131,6 +133,14 @@ function Home(){
 
 
     const handleSignUp = () => {
+        const extractTime = (isoString: string | null | undefined) => {
+            if (!isoString) return "";
+            const date = new Date(isoString);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        };
+
         const registerRequest = {
             firstName,
             lastName,
@@ -141,15 +151,14 @@ function Home(){
             phoneNumber,
             address,
             userType,
-            ...(userType === "Trainer" && {
-                specialization,
-                yearsOfExperience,
-                certification,
-                pricePerHour,
-                startInterval,
-                endInterval,
-            }),
+            specialization,
+            yearsOfExperience,
+            certification,
+            pricePerHour,
+            startInterval: extractTime(startInterval),
+            endInterval: extractTime(endInterval),
         } as RegisterRequest;
+
 
         axios.post<LoginResponse>(`${API_URL}/auth/register`, registerRequest)
             .then(({data}) => {
@@ -415,28 +424,39 @@ function Home(){
                                 </Grid>
 
                                 <Grid container spacing={2} sx={{ mb: 4 }}>
-                                    <Grid item xs={6}>
-                                        <TextField
-                                            label="Start Interval"
-                                            type="time"
-                                            value={startInterval}
-                                            onChange={(e) => setStartInterval(e.target.value)}
-                                            fullWidth
-                                            required
-                                            InputLabelProps={{ shrink: true }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <TextField
-                                            label="End Interval"
-                                            type="time"
-                                            value={endInterval}
-                                            onChange={(e) => setEndInterval(e.target.value)}
-                                            fullWidth
-                                            required
-                                            InputLabelProps={{ shrink: true }}
-                                        />
-                                    </Grid>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <Grid item xs={6}>
+                                            <TimePicker
+                                                label="Start Interval"
+                                                value={startInterval}
+                                                onChange={(newValue) => setStartInterval(newValue)}
+                                                ampm={false}
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        fullWidth
+                                                        required
+                                                    />
+                                                )}
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={6}>
+                                            <TimePicker
+                                                label="End Interval"
+                                                value={endInterval}
+                                                onChange={(newValue) => setEndInterval(newValue)}
+                                                ampm={false}
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        fullWidth
+                                                        required
+                                                    />
+                                                )}
+                                            />
+                                        </Grid>
+                                    </LocalizationProvider>
                                 </Grid>
                             </>
                         )}

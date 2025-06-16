@@ -26,7 +26,7 @@ export default function TrainerCoursesCreated() {
         if (!userId || !token) return;
 
         axios
-            .get<CoursesCreatedByTrainer[]>(`${API_URL}/trainer/coursesCreatedByTrainer/${userId}`,
+            .get<CoursesCreatedByTrainer[]>(`${API_URL}/trainer/coursesActiveCreatedByTrainer/${userId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

@@ -105,7 +105,7 @@ export function CoursesDisplay() {
 
 
 
-                <Grid container spacing={3}>
+                <Grid container spacing={3} sx={{overflowY:"auto", maxHeight:"85vh", overflowX:"hidden"}}>
                     {coursesCard.map((course) => (
                         <Grid item xs={12} sm={6} md={4} key={course.courseId}>
                             <CourseCard course={course} updatedNumber={handleUpdateNumbers} />

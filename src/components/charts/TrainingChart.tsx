@@ -111,7 +111,12 @@ function TrainingChart() {
                             }}
                         />
                         <XAxis dataKey="month" stroke="#ccc" axisLine={false} tickLine={false} />
-                        <YAxis stroke="#ccc" axisLine={false} tickLine={false} />
+                        <YAxis
+                            stroke="#ccc"
+                            axisLine={false}
+                            tickLine={false}
+                            tickCount={Math.max(...chartData.map(d => d.sessions)) + 1}
+                        />
                         <Tooltip />
                         <Bar dataKey="sessions" radius={[8, 8, 0, 0]} barSize={32}>
                             {chartData.map((entry, index) => (

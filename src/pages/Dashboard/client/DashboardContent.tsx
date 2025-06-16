@@ -1,5 +1,5 @@
 import {Card, CardContent, Grid, Typography } from "@mui/material";
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import ActiveCoursesList from "../../../components/activeCoursesList/ActiveCoursesList";
 import ActiveSubscriptionInfoCard from "../../../components/cards/ActiveSubscriptionInfoCard";
 import AddSessionCard from "../../../components/cards/AddNewSessionCard";
@@ -9,9 +9,12 @@ import {ApplicationContext} from "../../../context/ApplicationContext";
 function DashboardContent()
 {
     const auth   = useContext(ApplicationContext);
+    const [refresh, setRefresh] = useState<number>(0);
 
     return (
-        <>
+        <div
+        key={refresh}
+        >
             <h1 style={{
                 marginBottom: "16px",
                 marginTop: "-5px",
@@ -35,7 +38,7 @@ function DashboardContent()
                 </Grid>
 
                 <Grid item style={{paddingLeft: 255, paddingTop:3}}>
-                    <AddSessionCard/>
+                    <AddSessionCard callRefresh={() =>  setRefresh(val => val + 1)}/>
                 </Grid>
 
                 <Grid item xs={12} sx={{maxWidth: "600px", width: "100%", mr: "300px"}}>
@@ -56,7 +59,7 @@ function DashboardContent()
                 </Grid>
             </Grid>
 
-        </>
+        </div>
     );
 
 }

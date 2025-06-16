@@ -137,7 +137,7 @@ export default function TrainerCard({ trainer }: Props) {
                     variant="body2"
                     sx={{ color: "#bbb", fontStyle: "italic", mb: 1 }}
                 >
-                    Specializare: {trainer.specialization}
+                    Specialization: {trainer.specialization}
                 </Typography>
 
                 <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
@@ -228,7 +228,7 @@ export default function TrainerCard({ trainer }: Props) {
                             <InfoLine label="Rating" value={`${trainer.rating} ★`} />
                             <InfoLine label="Certification" value={trainer.certification} />
                             <InfoLine label="Experience" value={`${trainer.yearsOfExperience} years`} />
-                            <InfoLine label="Price/hour" value={`$${trainer.pricePerHour}`} />
+                            <InfoLine label="Price/hour" value={`${trainer.pricePerHour} lei`} />
                             <InfoLine label="Available" value={`${trainer.startInterval} - ${trainer.endInterval}`} />
                         </Box>
 

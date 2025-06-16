@@ -10,7 +10,10 @@ import axios from "axios";
 import { TrainerIntervalResponse } from "./types";
 import { API_URL } from "../../authorization/config";
 
-const AddSessionCard = () => {
+interface Props {
+    callRefresh: () => void;
+}
+const AddSessionCard = (props: Props) => {
     const auth = useContext(ApplicationContext);
     const userId = auth?.user?.userId;
     const token = auth?.user?.token;
@@ -31,15 +34,17 @@ const AddSessionCard = () => {
         setSelectedInterval(null);
         setSessionTitle("");
         setNotes("");
+        props.callRefresh();
     };
 
     useEffect(() => {
         if (!userId || !selectedDate) return;
 
+        const selectedDateFormatted = selectedDate?.format("YYYY-MM-DD");
         axios
             .post<TrainerIntervalResponse[]>(`${API_URL}/client/trainerIntervals`, {
                 clientId: userId,
-                selectedDate: selectedDate
+                selectedDate: selectedDateFormatted
             },{
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -53,18 +58,20 @@ const AddSessionCard = () => {
         if (!userId || !selectedDate || !sessionTitle || !selectedInterval) return;
 
         const [startHour, endHour] = selectedInterval.split(" - ");
-        const startDateTime = dayjs(selectedDate.format("YYYY-MM-DD") + "T" + startHour);
-        const endDateTime = dayjs(selectedDate.format("YYYY-MM-DD") + "T" + endHour);
+
+        const startDateTime = dayjs(`${selectedDate.format("YYYY-MM-DD")}T${startHour}`);
+        const endDateTime = dayjs(`${selectedDate.format("YYYY-MM-DD")}T${endHour}`);
         const duration = endDateTime.diff(startDateTime, "minute");
 
         const payload = {
             clientId: userId,
             trainerId: selectedTrainer?.trainerId || null,
-            startDateTime: startDateTime.toISOString(),
+            startDateTime: startDateTime.format("YYYY-MM-DDTHH:mm"),
             durationInMinutes: duration,
             title: sessionTitle,
             notes: notes
         };
+
 
         axios.post(`${API_URL}/client/addSession`, payload,{
             headers: {
@@ -134,7 +141,6 @@ const AddSessionCard = () => {
                         Add Training Session
                     </Typography>
 
-                    {/* Titlu */}
                     <TextField
                         label="Session Title"
                         fullWidth
@@ -142,7 +148,6 @@ const AddSessionCard = () => {
                         onChange={(e) => setSessionTitle(e.target.value)}
                     />
 
-                    {/* Notițe */}
                     <TextField
                         label="Notes"
                         fullWidth
@@ -153,13 +158,14 @@ const AddSessionCard = () => {
                         onChange={(e) => setNotes(e.target.value)}
                     />
 
-                    {/* Calendar + Trainer + Interval */}
+
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             label="Session Date"
                             value={selectedDate}
-                            onChange={(newValue: Dayjs | null) => setSelectedDate(newValue)}
+                            onChange={(newValue) => setSelectedDate(newValue ? newValue.startOf("day") : null)}
                             renderInput={(params) => <TextField fullWidth {...params} />}
+                            minDate={dayjs().startOf("day")}
                         />
 
                         <Autocomplete
@@ -174,8 +180,8 @@ const AddSessionCard = () => {
                             )}
                         />
 
-                        {/* INTERVALE */}
-                        {selectedTrainer && selectedTrainer.intervals.length > 0 && (
+
+                        {selectedTrainer && trainerIntervals.find(x => x.trainerId == selectedTrainer.trainerId) && (
                             <Box>
                                 <Typography variant="subtitle2" fontWeight={500}>
                                     Available Time Slots:
@@ -190,7 +196,7 @@ const AddSessionCard = () => {
                                         pr: 1,
                                     }}
                                 >
-                                    {selectedTrainer.intervals.map((interval, index) => (
+                                    {trainerIntervals.find((x => x.trainerId == selectedTrainer.trainerId))?.intervals?.map((interval, index) => (
                                         <Box
                                             key={index}
                                             onClick={() => setSelectedInterval(interval)}
