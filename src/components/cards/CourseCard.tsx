@@ -198,7 +198,7 @@ export default function CourseCard({ course, updatedNumber }: Props) {
                             }}
                         >
                             <InfoLine label="Trainer" value={course.trainerName} />
-                            <InfoLine label="Price" value={`$${course.price}`} />
+                            <InfoLine label="Price" value={`${course.price} RON`} />
                             <InfoLine label="Max Participants" value={`${course.maxParticipants}`} />
                             <InfoLine label="Total Enrolled" value={`${course.totalParticipants}`} />
                             <InfoLine label="Active" value={course.active ? "Yes" : "No"} />

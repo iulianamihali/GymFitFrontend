@@ -228,7 +228,7 @@ export default function TrainerCard({ trainer }: Props) {
                             <InfoLine label="Rating" value={`${trainer.rating} ★`} />
                             <InfoLine label="Certification" value={trainer.certification} />
                             <InfoLine label="Experience" value={`${trainer.yearsOfExperience} years`} />
-                            <InfoLine label="Price/hour" value={`${trainer.pricePerHour} lei`} />
+                            <InfoLine label="Price/hour" value={`${trainer.pricePerHour} RON`} />
                             <InfoLine label="Available" value={`${trainer.startInterval} - ${trainer.endInterval}`} />
                         </Box>
 
