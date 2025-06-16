@@ -42,6 +42,7 @@ function Home(){
     const [pricePerHour, setPricePerHour] = useState<number>(0);
     const [startInterval, setStartInterval] = useState<string|null>('');
     const [endInterval, setEndInterval] = useState<string|null>('');
+    const isMobile = window.innerWidth <= 768;
 
     // cand se randeaza prima data sa redirectioneze daca e deja logat
     useEffect( () => {
@@ -185,8 +186,9 @@ function Home(){
 
 
     return (
-        <div className="wrapper">
+        <div className="wrapper" >
             <div className="container">
+
                 <div className="left">
                     <h1 className="title">GymFit</h1>
                 </div>
@@ -198,7 +200,9 @@ function Home(){
                 </div>
                 <Modal open={openLogin} onClose={() => setOpenLogin(false)}>
                     <Box className="login-modal">
-                        <Typography variant="h5" align="center"  sx={{ marginBottom: '0.5rem' ,fontFamily: 'Poppins, sans-serif',fontWeight:600}}>Welcome Back!</Typography>
+                        <Typography variant="h5" align="center"
+                                    sx={{marginBottom: '0.5rem', fontFamily: 'Poppins, sans-serif', fontWeight: 600}}>Welcome
+                            Back!</Typography>
 
                         <TextField
                             label="Email"
@@ -209,7 +213,7 @@ function Home(){
                             error={errorEmail}
                             fullWidth
                             margin="normal"
-                            sx={{ mb: 2 }}
+                            sx={{mb: 2}}
                         />
 
                         <TextField
@@ -221,7 +225,7 @@ function Home(){
                             error={errorPassword}
                             fullWidth
                             margin="normal"
-                            sx={{ mb: 2 }}
+                            sx={{mb: 2}}
                         />
 
 
@@ -229,37 +233,42 @@ function Home(){
                                 className="login-button"
                                 variant="contained"
                                 disabled={errorEmail || errorPassword}
-                                color="primary" >
+                                color="primary">
                             Login
                         </Button>
-                        <Typography variant="body2" align="center" sx={{ marginTop: '1rem' ,fontFamily: 'Poppins, sans-serif'}}>
-                            Don't have an account? <span className="signup-link" >Register</span>
+                        <Typography variant="body2" align="center"
+                                    sx={{marginTop: '1rem', fontFamily: 'Poppins, sans-serif'}}>
+                            Don't have an account? <span className="signup-link">Register</span>
                         </Typography>
 
                         {(loginError !== '' ? (
-                            <Typography variant="body2" color="error" align="center" sx={{ marginTop: '0.5rem' }}>
+                            <Typography variant="body2" color="error" align="center" sx={{marginTop: '0.5rem'}}>
                                 {loginError}
                             </Typography>
                         ) : null) as React.ReactNode}
-
 
 
                     </Box>
                 </Modal>
 
                 <Modal open={openSignUp} onClose={() => setOpenSignUp(false)}>
-                    <Box className="signup-modal"   sx={{
+                    <Box className="signup-modal" sx={{
                         maxHeight: "76vh",
                         overflowY: "auto",
                         padding: 3,
                         borderRadius: 2,
                         backgroundColor: "white",
                     }}>
-                        <Typography variant="h5" align="center" sx={{ fontWeight:600,marginBottom: '0.5rem', fontFamily: 'Poppins, sans-serif',mb:3 }} >
+                        <Typography variant="h5" align="center" sx={{
+                            fontWeight: 600,
+                            marginBottom: '0.5rem',
+                            fontFamily: 'Poppins, sans-serif',
+                            mb: 3
+                        }}>
                             Create your account
                         </Typography>
 
-                        <Grid container spacing={2} sx={{ mb: 4 }}>
+                        <Grid container spacing={2} sx={{mb: 4}}>
                             <Grid item xs={6}>
                                 <TextField
                                     label="First Name"
@@ -282,7 +291,7 @@ function Home(){
                         </Grid>
 
 
-                        <Grid container spacing={2} sx={{ mb: 4 }}>
+                        <Grid container spacing={2} sx={{mb: 4}}>
                             <Grid item xs={6}>
                                 <TextField
                                     label="Email"
@@ -308,7 +317,7 @@ function Home(){
                             </Grid>
                         </Grid>
 
-                        <Grid container spacing={2} sx={{ mb: 4 }}>
+                        <Grid container spacing={2} sx={{mb: 4}}>
                             <Grid item xs={6}>
                                 <TextField
                                     select
@@ -331,13 +340,13 @@ function Home(){
                                     onChange={(e) => setDateOfBirth(e.target.value)}
                                     required
                                     fullWidth
-                                    InputLabelProps={{ shrink: true }}
+                                    InputLabelProps={{shrink: true}}
                                 />
                             </Grid>
                         </Grid>
 
 
-                        <Grid container spacing={2} sx={{mb:4}}>
+                        <Grid container spacing={2} sx={{mb: 4}}>
                             <Grid item xs={6}>
                                 <TextField
                                     label="Phone Number"
@@ -379,7 +388,7 @@ function Home(){
 
                         {userType === "Trainer" && (
                             <>
-                                <Grid container spacing={2} sx={{ mb: 4 }}>
+                                <Grid container spacing={2} sx={{mb: 4}}>
                                     <Grid item xs={6}>
                                         <TextField
                                             label="Specialization"
@@ -401,7 +410,7 @@ function Home(){
                                     </Grid>
                                 </Grid>
 
-                                <Grid container spacing={2} sx={{ mb: 4 }}>
+                                <Grid container spacing={2} sx={{mb: 4}}>
                                     <Grid item xs={6}>
                                         <TextField
                                             label="Certification"
@@ -423,7 +432,7 @@ function Home(){
                                     </Grid>
                                 </Grid>
 
-                                <Grid container spacing={2} sx={{ mb: 4 }}>
+                                <Grid container spacing={2} sx={{mb: 4}}>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <Grid item xs={6}>
                                             <TimePicker
@@ -466,7 +475,7 @@ function Home(){
                                 className="signup-button"
                                 variant="contained"
                                 color="primary"
-                                disabled={firstName==='' || lastName==='' || signupEmail==='' || signupPassword==='' || gender==='' || dateOfBirth==='' || phoneNumber==='' || address===''}>
+                                disabled={firstName === '' || lastName === '' || signupEmail === '' || signupPassword === '' || gender === '' || dateOfBirth === '' || phoneNumber === '' || address === ''}>
                             Sign Up
                         </Button>
 
@@ -476,10 +485,32 @@ function Home(){
 
 
             </div>
+            <div
+                className="img-login"
+                style={{
+                    flex: 1,
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    height: '100%',
+                    maxHeight: '100vh',
+                    paddingRight: '2rem',
 
-            {/*<div className="img-login">*/}
-            {/*<img src="/assets/imgs/login_img.jpg" alt="Fitness Hero"/>*/}
-            {/*</div>*/}
+                }}
+            >
+                <img
+                    src="/assets/img_home.png"
+                    alt="Fitness Hero"
+                    style={{
+                        width: '95%',
+                        maxWidth: isMobile ? '300px' : '500px',
+                        height: 'auto',
+                        objectFit: 'contain',
+                        marginTop: isMobile ? '20px' : '195px'
+                    }}
+                />
+            </div>
+
         </div>
 
 
